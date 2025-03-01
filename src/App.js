@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { getOpenAIResponse } from "./openaiService";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [input, setInput] = useState("");
+    const [response, setResponse] = useState("");
+
+    const handleSubmit = async () => {
+        const aiResponse = await getOpenAIResponse(input);
+        setResponse(aiResponse);
+    };
+
+    return (
+        <div style={{ padding: "20px" }}>
+            <h1>OpenAI API in React</h1>
+            <input 
+                type="text" 
+                value={input} 
+                onChange={(e) => setInput(e.target.value)} 
+                placeholder="Ask OpenAI..." 
+            />
+            <button onClick={handleSubmit}>Submit</button>
+            <p><strong>Response:</strong> {response}</p>
+        </div>
+    );
+};
 
 export default App;
